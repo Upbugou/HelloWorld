@@ -1,5 +1,5 @@
 #!/bin/bash
-# OpenVPN installation script
+# OpenVPN install script for Debian/Ubuntu systems
 
 echo "Starting OpenVPN installation script"
 IPTABLES="/sbin/iptables"
