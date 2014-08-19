@@ -32,21 +32,21 @@ openvpn --genkey --secret keys/ta.key >/dev/null 2>&1
 expect <<-EOF
 spawn ./build-key-server server
 expect "Country*"
-send "CN\n"
+send "cn\n"
 expect "State or*"
-send "FJ\n"
+send "fj\n"
 expect "Locality*"
 send "fz\n"
 expect "Organization Name*"
-send "foxit\n"
+send "Upbugou\n"
 expect "Organizational Unit*"
-send "it\n"
+send "Upbugou\n"
 expect "Common Name*"
 send "server\n"
 expect "Name*"
-send "foxit\n"
+send "Upbugou\n"
 expect "Email Address*"
-send "openvpn@foxitsoftware.com\n"
+send "openvpn@upbugou.com\n"
 expect "*[]"
 send "\n"
 expect "*[]"
@@ -60,23 +60,23 @@ exit
 EOF
 # Build client
 expect <<-EOF
-spawn ./build-key it
+spawn ./build-key client
 expect "Country*"
-send "CN\n"
+send "cn\n"
 expect "State or*"
-send "FJ\n"
+send "fj\n"
 expect "Locality*"
 send "fz\n"
 expect "Organization Name*"
-send "foxit\n"
+send "Upbugou\n"
 expect "Organizational Unit*"
-send "it\n"
+send "Upbugou\n"
 expect "Common Name*"
-send "it\n"
+send "client\n"
 expect "Name*"
-send "foxit\n"
+send "Upbugou\n"
 expect "Email Address*"
-send "openvpn@foxitsoftware.com\n"
+send "openvpn@upbugou.com\n"
 expect "*[]"
 send "\n"
 expect "*[]"
@@ -131,8 +131,8 @@ nobind
 persist-key
 persist-tun
 ca   keys/ca.crt
-cert keys/it.crt
-key  keys/it.key
+cert keys/client.crt
+key  keys/client.key
 auth-user-pass psd.txt
 ns-cert-type server
 tls-auth keys/ta.key 1
@@ -143,10 +143,10 @@ ping-restart 60
 EOF
 
 cp /etc/openvpn/easy-rsa/2.0/keys/{ca.crt,ca.key,server.crt,server.key,dh1024.pem,ta.key} /etc/openvpn/keys
-cp /etc/openvpn/easy-rsa/2.0/keys/{ca.crt,ca.key,it.crt,it.key,dh1024.pem,ta.key} /etc/openvpn/client/keys
+cp /etc/openvpn/easy-rsa/2.0/keys/{ca.crt,ca.key,client.crt,client.key,dh1024.pem,ta.key} /etc/openvpn/client/keys
 
 # tar client files.
-cd /etc/openvpn/client && tar cvpf /etc/openvpn/client.tar keys/{ca.crt,it.crt,it.key,dh1024.pem,ta.key} client.ovpn
+cd /etc/openvpn/client && tar cvpf /etc/openvpn/client.tar keys/{ca.crt,client.crt,client.key,dh1024.pem,ta.key} client.ovpn
 wget http://openvpn.se/files/other/checkpsw.sh -O/etc/openvpn/checkpsw.sh >/dev/null 2>&1
 if [ $? -ne 0 ]; then
 echo $TIME_STAMP: checkpsw.sh failed to download. >> $LOG_FILE
